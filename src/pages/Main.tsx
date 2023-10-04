@@ -37,10 +37,10 @@ export const Main = () => {
         app_name: "DeskproApp",
         external_item_name: context?.data.ticket.subject,
         external_item_id: context?.data.ticket.id,
+        permalink: window.location.href,
       }).toString(),
     [context]
   );
-
   if (!context) return <LoadingSpinner />;
 
   return (
