@@ -3,7 +3,7 @@ import {
   useDeskproLatestAppContext,
   useInitialisedDeskproAppClient,
 } from "@deskpro/app-sdk";
-import { useEffect } from "react";
+import { useEffect, useMemo } from "react";
 
 /*
     Note: the following page component contains example code, please remove the contents of this component before you
@@ -31,15 +31,23 @@ export const Main = () => {
     });
   });
 
+  const urlSearchParams = useMemo(
+    () =>
+      new URLSearchParams({
+        app_name: "DeskproApp",
+        external_item_name: context?.data.ticket.subject,
+        external_item_id: context?.data.ticket.id,
+      }).toString(),
+    [context]
+  );
+
   if (!context) return <LoadingSpinner />;
 
   return (
     <iframe
       style={{ width: "100%", height: "100%" }}
       frameBorder="0"
-      src={`https://platform.harvestapp.com/platform/timer?app_name=DeskproApp&external_item_name=${encodeURI(
-        context.data.ticket.subject
-      )}&permalink=https%3A%2F%2Fexample.com%2Fprojects%2F179%2F1337&external_item_id=1337&default_project_code=q4-projects-cleanup&closable=false&chromeless=true`}
+      src={`https://platform.harvestapp.com/platform/timer?${urlSearchParams}`}
     ></iframe>
   );
 };
