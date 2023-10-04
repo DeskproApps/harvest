@@ -1,4 +1,3 @@
-My App Setup Instructions
-===
+# Harvest Setup Instructions
 
-TODO: Write setup instructions
+No Setup necessary, just install the app.
