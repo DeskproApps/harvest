@@ -4,6 +4,7 @@ import {
   useInitialisedDeskproAppClient,
 } from "@deskpro/app-sdk";
 import { useEffect, useMemo } from "react";
+import { ticketAccessor } from "../utils/utils";
 
 /*
     Note: the following page component contains example code, please remove the contents of this component before you
@@ -33,14 +34,22 @@ export const Main = () => {
 
   const urlSearchParams = useMemo(
     () =>
-      new URLSearchParams({
-        app_name: "DeskproApp",
-        external_item_name: context?.data.ticket.subject,
-        external_item_id: context?.data.ticket.id,
-        permalink: window.location.href,
-      }).toString(),
+      new URLSearchParams(
+        context?.settings && context.data
+          ? {
+              app_name: "DeskproApp",
+              external_item_id: context?.data.ticket.id,
+              permalink: window.location.href,
+              ...ticketAccessor(
+                context?.data.ticket,
+                JSON.parse(context?.settings.field_mapping ?? "{}")
+              ),
+            }
+          : {}
+      ).toString(),
     [context]
   );
+
   if (!context) return <LoadingSpinner />;
 
   return (
