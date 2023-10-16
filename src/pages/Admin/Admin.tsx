@@ -98,11 +98,33 @@ const harvestFields = [
 
 export const Admin = () => {
   const [settings, setSettings] = useState<ISettings | null>(null);
+  const [customFields, setCustomFields] = useState<
+    {
+      fieldName: string;
+      label: string;
+      value: string;
+    }[]
+  >([]);
 
   useDeskproAppEvents(
     {
       onAdminSettingsChange: (e) => {
         !settings && setSettings(JSON.parse(e.field_mapping ?? "{}"));
+      },
+      onReady: (context) => {
+        setCustomFields(
+          (
+            context as unknown as {
+              customFields: {
+                ticket: { id: string; title: string; description: string }[];
+              };
+            }
+          ).customFields.ticket.map((e) => ({
+            fieldName: "customFields.field." + e.id + ".value",
+            label: `${e.id} - ${e.title}`,
+            value: e.description,
+          }))
+        );
       },
     },
     [settings]
@@ -116,8 +138,8 @@ export const Admin = () => {
   );
 
   const setSettingsDropdown = (
-    harvestField: { key: string; value: string },
-    deskproField: { label: string; value: string; fieldName: string }
+    deskproField: { key: string; value: string },
+    harvestField: { key: string; value: string }
   ) => {
     if (!settings) return;
 
@@ -128,13 +150,13 @@ export const Admin = () => {
     if (foundFieldUsingValue) {
       setSettings({
         ...settings,
-        [harvestField.value]: deskproField.fieldName,
+        [harvestField.value]: deskproField.value,
         [foundFieldUsingValue[0]]: null,
       });
     } else {
       setSettings({
         ...settings,
-        [harvestField.value]: deskproField.fieldName,
+        [harvestField.value]: deskproField.value,
       });
     }
   };
@@ -145,36 +167,25 @@ export const Admin = () => {
     <div
       style={{
         display: "grid",
-        gridTemplateColumns: "35% 35% 30%",
+        gridTemplateColumns: "50% 50%",
         columnGap: "7px",
         rowGap: "5px",
         whiteSpace: "nowrap",
         alignItems: "center",
       }}
     >
-      <H1>Column Name</H1>
-      <H1>Example Data</H1>
+      <H1>Harvest Column Name</H1>
       <H1>Map to field in Harvest</H1>
-      {exampleTicket.map((field) => (
+      {harvestFields.map((harvestField) => (
         <>
-          <H4>{field.label}</H4>
-          <H4
-            style={{
-              textOverflow: "ellipsis",
-              whiteSpace: "nowrap",
-              overflow: "hidden",
-            }}
-          >
-            {field.value}
-          </H4>
+          <H4>{harvestField.key}</H4>
           <DropdownSelect
-            data={harvestFields}
-            onChange={(e) => setSettingsDropdown(e, field)}
-            value={
-              Object.entries(settings).find(
-                (e) => e[1] === field.fieldName
-              )?.[0] || undefined
-            }
+            data={[...exampleTicket, ...customFields].map((e) => ({
+              key: e.label,
+              value: e.fieldName,
+            }))}
+            onChange={(e) => setSettingsDropdown(e, harvestField)}
+            value={settings[harvestField.value as keyof ISettings]}
           />
         </>
       ))}

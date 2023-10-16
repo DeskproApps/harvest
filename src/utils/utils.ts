@@ -1,5 +1,7 @@
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const getValueByPath = (obj: any, path: string) => {
+  if (!obj || !path) return undefined;
+
   const keys = path.split(".");
   let result = obj;
 
