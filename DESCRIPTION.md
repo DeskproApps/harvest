@@ -1,4 +1,3 @@
-My App
-======
+# Harvest App
 
-todo: add a description that will appear alongside your app in Deskpro admin
+Time-tracking made effortless and accurate with Harvest.
