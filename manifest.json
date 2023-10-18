@@ -2,23 +2,16 @@
   "name": "@deskpro-apps/harvest",
   "title": "Harvest",
   "description": "Time-tracking made effortless and accurate with Harvest",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "scope": "agent",
   "isSingleInstall": false,
   "hasDevMode": true,
-  "targets": [
-    {
-      "target": "ticket_sidebar",
-      "entrypoint": "index.html"
-    }
-  ],
+  "targets": [{ "target": "ticket_sidebar", "entrypoint": "index.html" }],
   "settings": {
     "field_mapping": {
       "title": "Field mapping: Choose to pass some extra data from fields in Deskpro to fields of your choice in Harvest",
       "type": "app_embedded",
-      "options": {
-        "entrypoint": "#/admin"
-      },
+      "options": { "entrypoint": "#/admin" },
       "default": "{\"external_item_name\":\"subject\"}",
       "isRequired": false,
       "isBackendOnly": false,
