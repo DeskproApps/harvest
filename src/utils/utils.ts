@@ -4,12 +4,15 @@ export const getValueByPath = (obj: any, path: string) => {
 
   const keys = path.split(".");
   let result = obj;
-
   for (const key of keys) {
-    if (result && typeof result === "object" && key in result) {
-      result = result[key];
+    if (
+      result &&
+      typeof result === "object" &&
+      key.replace(",", ".") in result
+    ) {
+      result = result[key.replace(",", ".")];
     } else {
-      return undefined;
+      return "";
     }
   }
 

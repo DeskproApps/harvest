@@ -120,7 +120,7 @@ export const Admin = () => {
               };
             }
           ).customFields.ticket.map((e) => ({
-            fieldName: "customFields.field." + e.id + ".value",
+            fieldName: "customFields.field," + e.id + ".value",
             label: `${e.id} - ${e.title}`,
             value: e.description,
           }))
@@ -175,7 +175,7 @@ export const Admin = () => {
       }}
     >
       <H1>Harvest Column Name</H1>
-      <H1>Map to field in Harvest</H1>
+      <H1>Map from field in Deskpro</H1>
       {harvestFields.map((harvestField) => (
         <>
           <H4>{harvestField.key}</H4>

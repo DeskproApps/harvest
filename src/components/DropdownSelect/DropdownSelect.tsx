@@ -69,6 +69,7 @@ export const DropdownSelect = ({
       {/* eslint-disable-next-line @typescript-eslint/no-explicit-any*/}
       <DropdownComponent<any, HTMLDivElement>
         placement="bottom-start"
+        containerMaxHeight="100%"
         options={dataOptions.map((e) => ({
           ...e,
           selected: ["number", "string"].includes(typeof value)
