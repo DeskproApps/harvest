@@ -2,7 +2,7 @@ import { useDeskproAppTheme } from "@deskpro/app-sdk";
 import {
   AnyIcon,
   DivAsInput,
-  Dropdown as DropdownComponent,
+  Drilldown,
   DropdownTargetProps,
   H1,
   Label,
@@ -13,7 +13,7 @@ import {
   faCheck,
   faExternalLinkAlt,
 } from "@fortawesome/free-solid-svg-icons";
-import { ReactNode, useMemo } from "react";
+import { ReactNode, useMemo, useState } from "react";
 type Props = {
   data?: {
     key: string;
@@ -35,6 +35,7 @@ export const DropdownSelect = ({
   required,
   multiple,
 }: Props) => {
+  const [search, setSearch] = useState("");
   const { theme } = useDeskproAppTheme();
 
   const dataOptions = useMemo(() => {
@@ -50,6 +51,8 @@ export const DropdownSelect = ({
     label: ReactNode;
     type: "value";
   }[];
+
+  const height = 48 * dataOptions.length;
 
   return (
     <Stack
@@ -67,15 +70,23 @@ export const DropdownSelect = ({
         </Stack>
       )}
       {/* eslint-disable-next-line @typescript-eslint/no-explicit-any*/}
-      <DropdownComponent<any, HTMLDivElement>
+      <Drilldown<any, HTMLDivElement>
+        type="flat"
         placement="bottom-start"
-        containerMaxHeight="100%"
-        options={dataOptions.map((e) => ({
-          ...e,
-          selected: ["number", "string"].includes(typeof value)
-            ? e.value === value
-            : value?.includes(e.value),
-        }))}
+        backText="Back"
+        emptySearchResultsText="No results found"
+        options={dataOptions
+          .filter((e) => e.key.includes(search) || e.value.includes(search))
+          .map((e) => ({
+            ...e,
+            parentKey: undefined,
+            selected: ["number", "string"].includes(typeof value)
+              ? e.value === value
+              : value?.includes(e.value),
+          }))}
+        containerHeight={height}
+        showInternalSearch
+        onInputChange={(e) => setSearch(e)}
         fetchMoreText={"Fetch more"}
         autoscrollText={"Autoscroll"}
         selectedIcon={faCheck as AnyIcon}
@@ -106,7 +117,7 @@ export const DropdownSelect = ({
             }
           />
         )}
-      </DropdownComponent>
+      </Drilldown>
     </Stack>
   );
 };
