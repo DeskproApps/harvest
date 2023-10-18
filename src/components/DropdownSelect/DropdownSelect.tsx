@@ -76,7 +76,11 @@ export const DropdownSelect = ({
         backText="Back"
         emptySearchResultsText="No results found"
         options={dataOptions
-          .filter((e) => e.key.includes(search) || e.value.includes(search))
+          .filter(
+            (e) =>
+              e.key.toLowerCase().includes(search.toLowerCase()) ||
+              e.value.toLowerCase().includes(search.toLowerCase())
+          )
           .map((e) => ({
             ...e,
             parentKey: undefined,
