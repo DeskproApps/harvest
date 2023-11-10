@@ -2,7 +2,7 @@
   "name": "@deskpro-apps/harvest",
   "title": "Harvest",
   "description": "Time-tracking made effortless and accurate with Harvest",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "scope": "agent",
   "isSingleInstall": false,
   "hasDevMode": true,
