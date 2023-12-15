@@ -4,7 +4,7 @@ import {
   useInitialisedDeskproAppClient,
 } from "@deskpro/app-sdk";
 import { H1, H4 } from "@deskpro/deskpro-ui";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { ISettings } from "../../types/settings";
 import { DropdownSelect } from "../../components/DropdownSelect/DropdownSelect";
 
@@ -181,22 +181,11 @@ export const Admin = () => {
     });
   };
 
-  if (!settings) return <LoadingSpinner />;
+  const fields = useMemo(
+    () => {
+      if (!settings) return;
 
-  return (
-    <div
-      style={{
-        display: "grid",
-        gridTemplateColumns: "50% 50%",
-        columnGap: "7px",
-        rowGap: "5px",
-        whiteSpace: "nowrap",
-        alignItems: "center",
-      }}
-    >
-      <H1>Harvest Column Name</H1>
-      <H1>Map from field in Deskpro</H1>
-      {harvestFields.map((harvestField) => (
+      return harvestFields.map((harvestField) => (
         <>
           <H4>{harvestField.key}</H4>
           <DropdownSelect
@@ -223,7 +212,29 @@ export const Admin = () => {
             )}
           />
         </>
-      ))}
+      ));
+    },
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [data, settings]
+  );
+
+  if (!settings) return <LoadingSpinner />;
+
+  return (
+    <div
+      style={{
+        display: "grid",
+        gridTemplateColumns: "50% 50%",
+        columnGap: "7px",
+        rowGap: "5px",
+        whiteSpace: "nowrap",
+        alignItems: "center",
+      }}
+    >
+      <H1>Harvest Column Name</H1>
+      <H1>Map from field in Deskpro</H1>
+      {fields}
     </div>
   );
 };
