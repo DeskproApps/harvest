@@ -147,14 +147,14 @@ export const Admin = () => {
   ) => {
     if (!settings) return;
 
-    const field = settings[harvestField.value as keyof ISettings]?.find(
-      (e) => e.value === deskproField.value
-    );
+    const settingsField = settings[harvestField.value as keyof ISettings];
+
+    const field = settingsField?.find((e) => e.value === deskproField.value);
 
     if (field) {
       setSettings({
         ...settings,
-        [harvestField.value]: settings[harvestField.value as keyof ISettings]
+        [harvestField.value]: settingsField
           ?.filter((e) => e.value !== deskproField.value)
           .map((e) => ({
             ...e,
@@ -167,9 +167,9 @@ export const Admin = () => {
     }
 
     const maxValue = Math.max(
-      ...(
-        settings[harvestField.value as keyof ISettings] ?? [{ order: 0 }]
-      ).map((e) => e.order ?? 0)
+      ...(settingsField?.length ? settingsField : [{ order: 0 }]).map(
+        (e) => e.order ?? 0
+      )
     );
 
     setSettings({
