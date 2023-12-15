@@ -19,7 +19,7 @@
       "options": {
         "entrypoint": "#/admin"
       },
-      "default": "{\"external_item_name\":\"subject\"}",
+      "default": "{}",
       "isRequired": false,
       "isBackendOnly": false,
       "order": 10

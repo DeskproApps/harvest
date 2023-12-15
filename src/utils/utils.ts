@@ -1,33 +1,43 @@
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export const getValueByPath = (obj: any, path: string) => {
-  if (!obj || !path) return undefined;
+import { ISettings } from "../types/settings";
 
-  const keys = path.split(".");
-  let result = obj;
-  for (const key of keys) {
-    if (
-      result &&
-      typeof result === "object" &&
-      key.replace(",", ".") in result
-    ) {
-      result = result[key.replace(",", ".")];
-    } else {
-      return "";
+export const getValueByPath = (
+  obj: Record<string, string>,
+  paths: { value: string; order: number }[]
+) => {
+  if (!obj || !paths || !paths.length) return undefined;
+
+  const results = [];
+
+  for (const path of paths.sort((a, b) => a.order - b.order)) {
+    const keys = path.value.split(".");
+    let result;
+    for (const key of keys) {
+      if (obj && typeof obj === "object" && key.replace(",", ".") in obj) {
+        result = obj[key.replace(",", ".")];
+      } else {
+        return "";
+      }
     }
+    results.push(result);
   }
 
-  return result;
+  return results.join(", ");
 };
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const ticketAccessor = (
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   ticket: any,
-  settings: Record<string, string>
+  settings: ISettings
 ) => {
-  return Object.keys(settings).reduce((acc: Record<string, string>, curr) => {
-    acc[curr] = getValueByPath(ticket, settings[curr]);
+  return Object.keys(settings).reduce(
+    (acc: Record<string, string | undefined>, curr) => {
+      acc[curr] = getValueByPath(
+        ticket,
+        settings[curr as keyof ISettings] as { value: string; order: number }[]
+      );
 
-    return acc;
-  }, {});
+      return acc;
+    },
+    {}
+  );
 };
