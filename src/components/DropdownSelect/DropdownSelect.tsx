@@ -5,6 +5,7 @@ import {
   Drilldown,
   DropdownTargetProps,
   H1,
+  Icon,
   Label,
   Stack,
 } from "@deskpro/deskpro-ui";
@@ -93,7 +94,11 @@ export const DropdownSelect = ({
         onInputChange={(e) => setSearch(e)}
         fetchMoreText={"Fetch more"}
         autoscrollText={"Autoscroll"}
-        selectedIcon={faCheck as AnyIcon}
+        selectedIcon={
+          <div style={{ marginRight: "20px" }}>
+            <Icon icon={faCheck as AnyIcon} />
+          </div>
+        }
         externalLinkIcon={faExternalLinkAlt as AnyIcon}
         onSelectOption={(option) => {
           onChange(option);
