@@ -53,8 +53,6 @@ export const DropdownSelect = ({
     type: "value";
   }[];
 
-  const height = 48 * dataOptions.length;
-
   return (
     <Stack
       vertical
@@ -89,7 +87,6 @@ export const DropdownSelect = ({
               ? e.value === value
               : value?.includes(e.value),
           }))}
-        containerHeight={height}
         showInternalSearch
         onInputChange={(e) => setSearch(e)}
         fetchMoreText={"Fetch more"}
