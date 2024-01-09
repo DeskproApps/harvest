@@ -5,8 +5,8 @@ import {
 } from "@deskpro/app-sdk";
 import { H1, H4 } from "@deskpro/deskpro-ui";
 import { useEffect, useMemo, useState } from "react";
-import { ISettings } from "../../types/settings";
 import { DropdownSelect } from "../../components/DropdownSelect/DropdownSelect";
+import { ISettings } from "../../types/settings";
 
 const exampleTicket = [
   { fieldName: "id", label: "ID", value: "436" },
@@ -185,22 +185,30 @@ export const Admin = () => {
     () => {
       if (!settings) return;
 
+      const maxOrderValue = Math.max(
+        ...Object.values(settings).flatMap((e) =>
+          e.map((e: { order: number }) => e.order ?? 0)
+        )
+      );
+
       return harvestFields.map((harvestField) => (
         <>
           <H4>{harvestField.key}</H4>
           <DropdownSelect
             data={data
-              .sort((a, b) =>
-                b.order && a.order
-                  ? settings[harvestField.value as keyof ISettings]?.find(
-                      (e) => e.value === a.fieldName
-                    )?.order ??
-                    0 -
-                      (settings[harvestField.value as keyof ISettings]?.find(
-                        (e) => e.value === b.fieldName
-                      )?.order ?? 0)
-                  : +1
-              )
+              .sort((a, b) => {
+                const orderA =
+                  settings[harvestField.value as keyof ISettings]?.find(
+                    (e) => e.value === a.fieldName
+                  )?.order ?? maxOrderValue + 1;
+
+                const orderB =
+                  settings[harvestField.value as keyof ISettings]?.find(
+                    (e) => e.value === b.fieldName
+                  )?.order ?? maxOrderValue + 1;
+
+                return orderA - orderB;
+              })
               .map((e) => ({
                 key: e.label,
                 value: e.fieldName,
