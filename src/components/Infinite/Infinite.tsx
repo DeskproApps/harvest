@@ -402,12 +402,10 @@ export function Infinite({
   return (
     <Stack
       {...dpNameProp("Infinite")}
-      maxHeight="100%"
       style={{
         position: "relative",
         overflow: "scroll",
         overflowX: "hidden",
-        height: "100%",
         width,
       }}
       justify={justify}

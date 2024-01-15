@@ -90,6 +90,7 @@ export const DropdownSelect = ({
               ? e.value === value
               : value?.includes(e.value),
           }))}
+        inputValue={search}
         showInternalSearch
         usePortal={false}
         onInputChange={(e) => setSearch(e)}

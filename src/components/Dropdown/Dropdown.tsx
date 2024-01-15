@@ -722,7 +722,7 @@ export function Dropdown<
       onKeyDownCapture={handleKeyDown}
       data-testid="dropdown-container"
       ref={mergeRefs(setPopperElement, dropdownRef, containerRef ?? null)}
-      style={styles.popper}
+      style={{ ...styles.popper, left: -5 }}
       containerWidth={containerWidth || refWidth}
       containerHeight={containerHeight}
       containerMaxHeight={containerMaxHeight}
