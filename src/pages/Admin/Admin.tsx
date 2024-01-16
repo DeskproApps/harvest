@@ -4,9 +4,9 @@ import {
   useInitialisedDeskproAppClient,
 } from "@deskpro/app-sdk";
 import { H1, H4 } from "@deskpro/deskpro-ui";
-import { useState } from "react";
-import { ISettings } from "../../types/settings";
+import { useEffect, useMemo, useState } from "react";
 import { DropdownSelect } from "../../components/DropdownSelect/DropdownSelect";
+import { ISettings } from "../../types/settings";
 
 const exampleTicket = [
   { fieldName: "id", label: "ID", value: "436" },
@@ -96,15 +96,17 @@ const harvestFields = [
   },
 ];
 
+type DeskproData = {
+  fieldName: string;
+  label: string;
+  order?: number;
+  value: string;
+};
+
 export const Admin = () => {
   const [settings, setSettings] = useState<ISettings | null>(null);
-  const [customFields, setCustomFields] = useState<
-    {
-      fieldName: string;
-      label: string;
-      value: string;
-    }[]
-  >([]);
+  const [customFields, setCustomFields] = useState<DeskproData[]>([]);
+  const [data, setData] = useState<DeskproData[]>([]);
 
   useDeskproAppEvents(
     {
@@ -137,29 +139,93 @@ export const Admin = () => {
     [settings]
   );
 
+  useEffect(() => setData([...exampleTicket, ...customFields]), [customFields]);
+
   const setSettingsDropdown = (
     deskproField: { key: string; value: string },
     harvestField: { key: string; value: string }
   ) => {
     if (!settings) return;
 
-    const foundFieldUsingValue = Object.entries(settings).find(
-      (e) => e[1] === deskproField.value
+    const settingsField = settings[harvestField.value as keyof ISettings];
+
+    const field = settingsField?.find((e) => e.value === deskproField.value);
+
+    if (field) {
+      setSettings({
+        ...settings,
+        [harvestField.value]: settingsField
+          ?.filter((e) => e.value !== deskproField.value)
+          .map((e) => ({
+            ...e,
+            order:
+              e.order && e.order > (field.order ?? 0) ? e.order - 1 : e.order,
+          })),
+      });
+
+      return;
+    }
+
+    const maxValue = Math.max(
+      ...(settingsField?.length ? settingsField : [{ order: 0 }]).map(
+        (e) => e.order ?? 0
+      )
     );
 
-    if (foundFieldUsingValue) {
-      setSettings({
-        ...settings,
-        [harvestField.value]: deskproField.value,
-        [foundFieldUsingValue[0]]: null,
-      });
-    } else {
-      setSettings({
-        ...settings,
-        [harvestField.value]: deskproField.value,
-      });
-    }
+    setSettings({
+      ...settings,
+      [harvestField.value]: [
+        ...(settings[harvestField.value as keyof ISettings] ?? []),
+        { value: deskproField.value, order: maxValue + 1 },
+      ],
+    });
   };
+
+  const fields = useMemo(
+    () => {
+      if (!settings) return;
+
+      const maxOrderValue = Math.max(
+        ...Object.values(settings).flatMap((e) =>
+          e.map((e: { order: number }) => e.order ?? 0)
+        )
+      );
+
+      return harvestFields.map((harvestField) => (
+        <>
+          <H4>{harvestField.key}</H4>
+          <DropdownSelect
+            data={data
+              .sort((a, b) => {
+                const orderA =
+                  settings[harvestField.value as keyof ISettings]?.find(
+                    (e) => e.value === a.fieldName
+                  )?.order ?? maxOrderValue + 1;
+
+                const orderB =
+                  settings[harvestField.value as keyof ISettings]?.find(
+                    (e) => e.value === b.fieldName
+                  )?.order ?? maxOrderValue + 1;
+
+                return orderA - orderB;
+              })
+              .map((e) => ({
+                key: e.label,
+                value: e.fieldName,
+              }))}
+            multiple
+            onChange={(e) => setSettingsDropdown(e, harvestField)}
+            value={settings[harvestField.value as keyof ISettings]?.map(
+              (e) => e.value
+            )}
+          />
+        </>
+      ));
+    },
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [data, settings]
+  );
 
   if (!settings) return <LoadingSpinner />;
 
@@ -176,19 +242,7 @@ export const Admin = () => {
     >
       <H1>Harvest Column Name</H1>
       <H1>Map from field in Deskpro</H1>
-      {harvestFields.map((harvestField) => (
-        <>
-          <H4>{harvestField.key}</H4>
-          <DropdownSelect
-            data={[...exampleTicket, ...customFields].map((e) => ({
-              key: e.label,
-              value: e.fieldName,
-            }))}
-            onChange={(e) => setSettingsDropdown(e, harvestField)}
-            value={settings[harvestField.value as keyof ISettings]}
-          />
-        </>
-      ))}
+      {fields}
     </div>
   );
 };

@@ -2,9 +2,9 @@ import { useDeskproAppTheme } from "@deskpro/app-sdk";
 import {
   AnyIcon,
   DivAsInput,
-  Drilldown,
   DropdownTargetProps,
   H1,
+  Icon,
   Label,
   Stack,
 } from "@deskpro/deskpro-ui";
@@ -14,6 +14,7 @@ import {
   faExternalLinkAlt,
 } from "@fortawesome/free-solid-svg-icons";
 import { ReactNode, useMemo, useState } from "react";
+import { Dropdown } from "../Dropdown/Dropdown";
 type Props = {
   data?: {
     key: string;
@@ -52,12 +53,15 @@ export const DropdownSelect = ({
     type: "value";
   }[];
 
-  const height = 48 * dataOptions.length;
-
   return (
     <Stack
       vertical
-      style={{ marginTop: "5px", color: theme?.colors.grey80, width: "100%" }}
+      style={{
+        marginTop: "5px",
+        color: theme?.colors.grey80,
+        width: "100%",
+        maxHeight: "200px",
+      }}
     >
       {title && (
         <Stack>
@@ -70,11 +74,9 @@ export const DropdownSelect = ({
         </Stack>
       )}
       {/* eslint-disable-next-line @typescript-eslint/no-explicit-any*/}
-      <Drilldown<any, HTMLDivElement>
-        type="flat"
+      <Dropdown<any, HTMLDivElement>
         placement="bottom-start"
-        backText="Back"
-        emptySearchResultsText="No results found"
+        containerHeight={200}
         options={dataOptions
           .filter(
             (e) =>
@@ -88,12 +90,17 @@ export const DropdownSelect = ({
               ? e.value === value
               : value?.includes(e.value),
           }))}
-        containerHeight={height}
+        inputValue={search}
         showInternalSearch
+        usePortal={false}
         onInputChange={(e) => setSearch(e)}
         fetchMoreText={"Fetch more"}
         autoscrollText={"Autoscroll"}
-        selectedIcon={faCheck as AnyIcon}
+        selectedIcon={
+          <div style={{ marginRight: "20px" }}>
+            <Icon icon={faCheck as AnyIcon} />
+          </div>
+        }
         externalLinkIcon={faExternalLinkAlt as AnyIcon}
         onSelectOption={(option) => {
           onChange(option);
@@ -121,7 +128,7 @@ export const DropdownSelect = ({
             }
           />
         )}
-      </Drilldown>
+      </Dropdown>
     </Stack>
   );
 };

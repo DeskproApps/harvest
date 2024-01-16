@@ -7,13 +7,20 @@
   "scope": "agent",
   "isSingleInstall": false,
   "hasDevMode": true,
-  "targets": [{ "target": "ticket_sidebar", "entrypoint": "index.html" }],
+  "targets": [
+    {
+      "target": "ticket_sidebar",
+      "entrypoint": "index.html"
+    }
+  ],
   "settings": {
     "field_mapping": {
       "title": "Field mapping: Choose to pass some extra data from fields in Deskpro to fields of your choice in Harvest",
       "type": "app_embedded",
-      "options": { "entrypoint": "#/admin" },
-      "default": "{\"external_item_name\":\"subject\"}",
+      "options": {
+        "entrypoint": "#/admin"
+      },
+      "default": "{\"external_item_name\":[{\"value\":\"subject\",\"order\":1}]}",
       "isRequired": false,
       "isBackendOnly": false,
       "order": 10
