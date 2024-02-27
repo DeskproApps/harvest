@@ -1,10 +1,11 @@
-<svg width="250" height="250" viewBox="0 0 250 250" fill="none" xmlns="http://www.w3.org/2000/svg">
-<rect x="29" y="29" width="192" height="192" rx="30" fill="url(#paint0_radial_1789_6877)"/>
-<path fill-rule="evenodd" clip-rule="evenodd" d="M140.361 67.4H162.441L162.441 113.48V132.68L162.441 182.6H140.361V132.68H109.641V182.6H87.5605V67.4H109.641V113.48H140.361V67.4Z" fill="white"/>
-<defs>
-<radialGradient id="paint0_radial_1789_6877" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(125 42.44) rotate(90) scale(124.32 326.34)">
-<stop stop-color="#F89C30"/>
-<stop offset="1" stop-color="#F66622"/>
-</radialGradient>
-</defs>
+<svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 250 250">
+  <defs>
+    <style>.cls-1{fill:#fa5d00;}</style>
+  </defs>
+  <path class="cls-1"
+        d="M109.39,156.56V250H93.63V109.53a15.58,15.58,0,0,1,15.76-15.47h46.67v46.72a15.58,15.58,0,0,1-15.45,15.78Z"/>
+  <path class="cls-1" d="M250,0V234.22A15.84,15.84,0,0,1,234.24,250H218.79V15.47A15.31,15.31,0,0,1,234.24,0Z"/>
+  <path class="cls-1" d="M187.58,0H203V234.22A15.78,15.78,0,0,1,187.58,250H171.82V78A15.57,15.57,0,0,1,187.58,62.5Z"/>
+  <path class="cls-1" d="M62.42,250H47V15.47A15.31,15.31,0,0,1,62.42,0H78.18V171.72A15.83,15.83,0,0,1,62.42,187.5Z"/>
+  <path class="cls-1" d="M0,250V15.47A15.58,15.58,0,0,1,15.76,0H31.21V234.22A15.58,15.58,0,0,1,15.76,250Z"/>
 </svg>
