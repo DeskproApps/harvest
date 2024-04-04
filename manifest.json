@@ -3,7 +3,7 @@
   "title": "Harvest",
   "description": "Time-tracking made effortless and accurate with Harvest",
   "appStoreUrl": "https://www.deskpro.com/product-embed/apps/harvest",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "scope": "agent",
   "isSingleInstall": false,
   "hasDevMode": true,
