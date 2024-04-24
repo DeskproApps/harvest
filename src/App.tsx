@@ -1,5 +1,6 @@
 import "@deskpro/deskpro-ui/dist/deskpro-ui.css";
 import "@deskpro/deskpro-ui/dist/deskpro-custom-icons.css";
+import "iframe-resizer/js/iframeResizer.contentWindow.js";
 import { DeskproAppProvider } from "@deskpro/app-sdk";
 import { Main } from "./pages/Main";
 import { Admin } from "./pages/Admin/Admin";
