@@ -5,7 +5,6 @@ import { HashRouter, Route, Routes } from "react-router-dom";
 
 import "@deskpro/deskpro-ui/dist/deskpro-ui.css";
 import "@deskpro/deskpro-ui/dist/deskpro-custom-icons.css";
-import "iframe-resizer/js/iframeResizer.contentWindow.js";
 
 function App() {
   return (
