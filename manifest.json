@@ -12,7 +12,7 @@
     "field_mapping": {
       "title": "Field mapping: Choose to pass some extra data from fields in Deskpro to fields of your choice in Harvest",
       "type": "app_embedded",
-      "options": { "entrypoint": "#/admin" },
+      "options": { "entrypoint": "#/admin", "height": "450px" },
       "default": "{\"external_item_name\":[{\"value\":\"subject\",\"order\":1}]}",
       "isRequired": false,
       "isBackendOnly": false,
