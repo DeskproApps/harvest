@@ -238,6 +238,7 @@ export const Admin = () => {
         rowGap: "5px",
         whiteSpace: "nowrap",
         alignItems: "center",
+        height: "450px",
       }}
     >
       <H1>Harvest Column Name</H1>
