@@ -1,9 +1,10 @@
+import styled from "styled-components";
 import {
   LoadingSpinner,
   useDeskproAppEvents,
   useInitialisedDeskproAppClient,
 } from "@deskpro/app-sdk";
-import { H1, H4 } from "@deskpro/deskpro-ui";
+import { H1, P5 } from "@deskpro/deskpro-ui";
 import { useEffect, useMemo, useState } from "react";
 import { DropdownSelect } from "../../components/DropdownSelect/DropdownSelect";
 import { ISettings } from "../../types/settings";
@@ -103,6 +104,29 @@ type DeskproData = {
   value: string;
 };
 
+const Table = Object.assign(styled.table`
+  border: none;
+  border-collapse: collapse;
+  border-spacing: 0;
+  background: transparent;
+  margin: 0;
+  padding: 0;
+  width: calc(100% - 2px);
+
+  th, td {
+    margin: 0;
+    padding: 0;
+    border: none;
+    font-weight: normal;
+    text-align: left;
+    vertical-align: top;
+  }
+`, {
+  Head: styled.th``,
+  Row: styled.tr``,
+  Cell: styled.td``,
+});
+
 export const Admin = () => {
   const [settings, setSettings] = useState<ISettings | null>(null);
   const [customFields, setCustomFields] = useState<DeskproData[]>([]);
@@ -192,34 +216,36 @@ export const Admin = () => {
       );
 
       return harvestFields.map((harvestField) => (
-        <>
-          <H4>{harvestField.key}</H4>
-          <DropdownSelect
-            data={data
-              .sort((a, b) => {
-                const orderA =
-                  settings[harvestField.value as keyof ISettings]?.find(
-                    (e) => e.value === a.fieldName
-                  )?.order ?? maxOrderValue + 1;
+        <Table.Row>
+          <Table.Cell><P5>{harvestField.key}</P5></Table.Cell>
+          <Table.Cell>
+            <DropdownSelect
+              data={data
+                .sort((a, b) => {
+                  const orderA =
+                    settings[harvestField.value as keyof ISettings]?.find(
+                      (e) => e.value === a.fieldName
+                    )?.order ?? maxOrderValue + 1;
 
-                const orderB =
-                  settings[harvestField.value as keyof ISettings]?.find(
-                    (e) => e.value === b.fieldName
-                  )?.order ?? maxOrderValue + 1;
+                  const orderB =
+                    settings[harvestField.value as keyof ISettings]?.find(
+                      (e) => e.value === b.fieldName
+                    )?.order ?? maxOrderValue + 1;
 
-                return orderA - orderB;
-              })
-              .map((e) => ({
-                key: e.label,
-                value: e.fieldName,
-              }))}
-            multiple
-            onChange={(e) => setSettingsDropdown(e, harvestField)}
-            value={settings[harvestField.value as keyof ISettings]?.map(
-              (e) => e.value
-            )}
-          />
-        </>
+                  return orderA - orderB;
+                })
+                .map((e) => ({
+                  key: e.label,
+                  value: e.fieldName,
+                }))}
+              multiple
+              onChange={(e) => setSettingsDropdown(e, harvestField)}
+              value={settings[harvestField.value as keyof ISettings]?.map(
+                (e) => e.value
+              )}
+            />
+          </Table.Cell>
+        </Table.Row>
       ));
     },
 
