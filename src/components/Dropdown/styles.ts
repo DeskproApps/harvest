@@ -1,12 +1,12 @@
 import styled from "styled-components";
-import { motion } from "framer-motion";
+import { motion, MotionProps } from "framer-motion";
 import { Icon, IconButton, Layers } from "@deskpro/deskpro-ui";
 import { dpNameProp } from "./utility";
 
 /**
  * @public
  */
-export const DropdownContainer = styled(motion.div).attrs(
+export const DropdownContainer = styled(motion.div).attrs<MotionProps & { "data-dp-name": string; "data-dp-ident"?: string } >(
   dpNameProp("Dropdown")
 )<{
   containerWidth?: number;
