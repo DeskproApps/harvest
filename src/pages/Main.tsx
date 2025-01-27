@@ -5,6 +5,7 @@ import {
 } from "@deskpro/app-sdk";
 import { useEffect, useMemo } from "react";
 import { ticketAccessor } from "../utils/utils";
+import { ContextData, ContextSettings } from "../types/context";
 
 /*
     Note: the following page component contains example code, please remove the contents of this component before you
@@ -12,7 +13,7 @@ import { ticketAccessor } from "../utils/utils";
     guides @see https://support.deskpro.com/en-US/guides/developers/anatomy-of-an-app
 */
 export const Main = () => {
-  const { context } = useDeskproLatestAppContext();
+  const { context } = useDeskproLatestAppContext<ContextData, ContextSettings>();
   useInitialisedDeskproAppClient((client) => {
     client.registerElement("refresh", {
       type: "refresh_button",
