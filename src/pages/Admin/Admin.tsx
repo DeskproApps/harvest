@@ -256,14 +256,20 @@ export const Admin = () => {
   if (!settings) return <LoadingSpinner />;
 
   return (
-    <div style={{ marginTop: "8px", height: "600px" }}>
-      <Table>
-        <Table.Row>
-          <Table.Head><H1>Harvest Column Name</H1></Table.Head>
-          <Table.Head><H1>Map from field in Deskpro</H1></Table.Head>
-        </Table.Row>
-        {fields}
-      </Table>
+    <div
+      style={{
+        display: "grid",
+        gridTemplateColumns: "50% 50%",
+        columnGap: "7px",
+        rowGap: "5px",
+        whiteSpace: "nowrap",
+        alignItems: "center",
+        height: "450px",
+      }}
+    >
+      <H1>Harvest Column Name</H1>
+      <H1>Map from field in Deskpro</H1>
+      {fields}
     </div>
   );
 };
