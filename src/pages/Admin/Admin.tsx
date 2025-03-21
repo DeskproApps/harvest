@@ -5,7 +5,7 @@ import {
   useInitialisedDeskproAppClient,
 } from "@deskpro/app-sdk";
 import { H1, P5 } from "@deskpro/deskpro-ui";
-import { useEffect, useMemo, useState } from "react";
+import { Fragment, useEffect, useMemo, useState } from "react";
 import { DropdownSelect } from "../../components/DropdownSelect/DropdownSelect";
 import { ISettings } from "../../types/settings";
 
@@ -216,7 +216,7 @@ export const Admin = () => {
       );
 
       return harvestFields.map((harvestField) => (
-        <Table.Row>
+        <Fragment key={harvestField.key}>
           <Table.Cell><P5>{harvestField.key}</P5></Table.Cell>
           <Table.Cell>
             <DropdownSelect
@@ -245,7 +245,7 @@ export const Admin = () => {
               )}
             />
           </Table.Cell>
-        </Table.Row>
+        </Fragment>
       ));
     },
 
