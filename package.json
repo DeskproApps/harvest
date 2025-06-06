@@ -18,6 +18,8 @@
     "@deskpro/deskpro-ui": "^8.3.1",
     "@fortawesome/free-solid-svg-icons": "^6.7.2",
     "@heroicons/react": "1.0.6",
+    "@sentry/react": "^9.22.0",
+    "@sentry/vite-plugin": "^3.5.0",
     "@types/lodash": "^4.17.16",
     "lodash": "^4.17.21",
     "polished": "^4.3.1",
