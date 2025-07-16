@@ -2,18 +2,19 @@ import styled from "styled-components";
 import { motion, MotionProps } from "framer-motion";
 import { Icon, IconButton, Layers } from "@deskpro/deskpro-ui";
 import { dpNameProp } from "./utility";
+import { DeskproAppTheme } from "@deskpro/app-sdk";
 
 /**
  * @public
  */
-export const DropdownContainer = styled(motion.div).attrs<MotionProps & { "data-dp-name": string; "data-dp-ident"?: string } >(
+export const DropdownContainer = styled(motion.div).attrs<MotionProps & { "data-dp-name": string; "data-dp-ident"?: string }>(
   dpNameProp("Dropdown")
-)<{
+) <{
   containerWidth?: number;
   containerHeight?: number;
   layer: keyof Layers;
   containerMaxHeight?: string | number;
-}>`
+} & DeskproAppTheme>`
   display: flex;
   flex-direction: column;
   overflow: hidden;
@@ -37,7 +38,7 @@ export const DropdownContainer = styled(motion.div).attrs<MotionProps & { "data-
 /**
  * @public
  */
-export const DropdownDividerItem = styled.div`
+export const DropdownDividerItem = styled.div<DeskproAppTheme>`
   width: 100%;
   border-top: 1px solid ${({ theme }) => theme.colors.grey10};
   margin-top: 5px;
@@ -47,7 +48,7 @@ export const DropdownDividerItem = styled.div`
 /**
  * @public
  */
-export const DropdownHeaderItem = styled.div`
+export const DropdownHeaderItem = styled.div<DeskproAppTheme>`
   font-family: ${({ theme }) => theme.fonts.inter};
   font-size: 12px;
   font-weight: 500;
@@ -59,7 +60,7 @@ export const DropdownHeaderItem = styled.div`
   padding-right: 15px;
 `;
 
-interface DropdownItemLayoutProps {
+interface DropdownItemLayoutProps extends DeskproAppTheme {
   hasExpandableItems?: boolean;
   disabled?: boolean;
   active?: boolean;
@@ -97,11 +98,11 @@ export const CreateNewItemLayout = styled(DropdownItemLayout)`
   }
 `;
 
-export const HiddenIcon = styled(Icon)<{ $visible: boolean }>`
+export const HiddenIcon = styled(Icon) <{ $visible: boolean }>`
   visibility: ${({ $visible }) => ($visible ? "visible" : "hidden")};
 `;
 
-export const ExpandButton = styled(IconButton)<{ $visible: boolean }>`
+export const ExpandButton = styled(IconButton) <{ $visible: boolean }>`
   visibility: ${({ $visible }) => ($visible ? "visible" : "hidden")};
   padding: 0;
   flex-shrink: 0;
@@ -113,7 +114,7 @@ export const ExpandButton = styled(IconButton)<{ $visible: boolean }>`
 export const DropDownLabel = styled.div<{
   selected?: boolean;
   hasSubItems?: boolean;
-}>`
+} & DeskproAppTheme>`
   width: ${({ hasSubItems }) => (hasSubItems ? "calc(100% - 30px)" : "100%")};
   color: ${({ theme, selected }) =>
     selected ? theme.colors.brandPrimary : theme.colors.grey100};
@@ -133,7 +134,7 @@ export const DropDownLabel = styled.div<{
   min-height: 36px;
 `;
 
-export const DropdownIcon = styled.div<{ iconColumnWidth?: number }>`
+export const DropdownIcon = styled.div<{ iconColumnWidth?: number } & DeskproAppTheme>`
   padding-right: 5px;
   width: ${({ iconColumnWidth }) =>
     (iconColumnWidth ? iconColumnWidth : 24) + "px"};
